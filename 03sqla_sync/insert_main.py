@@ -23,7 +23,7 @@ def insert_aditivo_nutritivo() -> AditivoNutritivo:
 
     nome: str = input('Informe o nome do aditivo nutritivo: ').title()
     formula_quimica: str = input(
-        'Informe a formula quimica do aditivo: ').title()
+        'Informe a formula quimica do aditivo: ').upper()
 
     an: AditivoNutritivo = AditivoNutritivo(
         nome=nome, formula_quimica=formula_quimica)
@@ -33,7 +33,7 @@ def insert_aditivo_nutritivo() -> AditivoNutritivo:
 
         session.commit()
 
-    return AditivoNutritivo
+    return an
 
 
 # 2 Sabor
@@ -49,7 +49,7 @@ def insert_sabor() -> Sabor:
 
         session.commit()
 
-    return Sabor
+    return sabor
 
 
 # 3 Tipo de Embalagem
@@ -65,7 +65,7 @@ def insert_tipo_embalagem() -> TipoEmbalagem:
 
         session.commit()
 
-    return TipoEmbalagem
+    return tipo_emb
 
 
 # 4 Tipo de Picole
@@ -81,7 +81,7 @@ def insert_tipo_picole() -> TipoPicole:
 
         session.commit()
 
-    return TipoPicole
+    return tipo_pic
 
 
 # 5 Ingredientes
@@ -97,7 +97,7 @@ def insert_ingrediente() -> Ingrediente:
 
         session.commit()
 
-    return Ingrediente
+    return ingrediente
 
 
 # 6 conservantes
@@ -115,7 +115,7 @@ def insert_conservante() -> Conservante:
 
         session.commit()
 
-    return Conservante
+    return conservante
 
 
 # 7 Revendedores
@@ -166,9 +166,9 @@ def insert_nota_fiscal() -> NotaFiscal:
     valor: float = input(
         'Informe o valor da nota fiscal: ')
     numero_serie: str = input(
-        'Informe o numero de serie: ')
+        'Informe o numero de serie: ').upper()
     descricao: str = input(
-        'Insira a descricao: ')
+        'Insira a descricao: ').title()
     id_revendedor: int = input(
         'Insira o ID do revendedor: ')
 
@@ -299,11 +299,11 @@ if __name__ == '__main__':
             sleep(2)
 
         elif opcao == '2':
-            sabor = insert_sabor()
+            sab = insert_sabor()
             print('Sabor cadastrado com sucesso.')
-            print(f'ID: {sabor.id}')
-            print(f'Data: {sabor.data_criacao}')
-            print(f'Nome: {sabor.nome}')
+            print(f'ID: {sab.id}')
+            print(f'Data: {sab.data_criacao}')
+            print(f'Nome: {sab.nome}')
             sleep(2)
 
         elif opcao == '3':
@@ -315,11 +315,11 @@ if __name__ == '__main__':
             sleep(2)
 
         elif opcao == '4':
-            tp = insert_tipo_picole
+            tipo_pic = insert_tipo_picole()
             print('Tipo de picole cadastrado com sucesso.')
-            print(f'ID: {tp.id}')
-            print(f'Data: {tp.data_criacao}')
-            print(f'Nome: {tp.nome}')
+            print(f'ID: {tipo_pic.id}')
+            print(f'Data: {tipo_pic.data_criacao}')
+            print(f'Nome: {tipo_pic.nome}')
             sleep(2)
 
         elif opcao == '5':
