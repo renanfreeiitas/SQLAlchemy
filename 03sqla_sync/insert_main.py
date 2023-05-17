@@ -167,21 +167,23 @@ def insert_revendedor() -> Revendedor:
 
 
 # 8 Lote
-def insert_lote() -> None:
+def insert_lote() -> Lote:
     print('Cadastrando lote')
 
-    id_pic: int = input(
-        'Informe o ID do picole que pertence a este lote: ')
-    qtd: int = input(
+    id_tipo_picole: int = input(
+        'Informe o ID do tipo do picole: ')
+    quantidade: int = input(
         'Informe a quantidade de picoles a ser cadastrado neste lote: ')
 
     lote: Lote = Lote(
-        id_tipo_picole=id_pic, quantidade=qtd)
+        id_tipo_picole=id_tipo_picole, quantidade=quantidade)
 
     with create_session() as session:
         session.add(lote)
 
         session.commit()
+
+        return lote
 
     print('Lote cadastrado com sucesso.')
     print(f'ID: {lote.id}')
@@ -189,6 +191,88 @@ def insert_lote() -> None:
     print(f'Tipo de picole: {lote.id_tipo_picole}')
     print(f'Quantidade: {lote.quantidade}')
     sleep(2)
+
+
+# 9 Nota fical
+def insert_nota_fiscal() -> NotaFiscal:
+    print('Cadastrando Nota Fiscal')
+
+    valor: float = input(
+        'Informe o valor da nota fiscal: ')
+    numero_serie: str = input(
+        'Informe o numero de serie: ')
+    descricao: str = input(
+        'Insira a descricao: ')
+    id_revendedor: int = input(
+        'Insira o ID do revendedor: ')
+
+    nf: NotaFiscal = NotaFiscal(
+        valor=valor, numero_serie=numero_serie, descricao=descricao, id_revendedor=id_revendedor)
+
+    lote = insert_lote()
+    nf.lotes.append(lote)
+
+    while True:
+        opcao: str = input(
+            'Cadastrar novo lote a nota fiscal, digite "1" OU digite "0" para continuar: ')
+        if opcao == '1':
+            lote = insert_lote()
+            nf.lotes.append(lote)
+        elif opcao == '0':
+            print('Finalizando nota fiscal!')
+            break
+        else:
+            print('Opcao invalida!')
+
+        '''lote2 = insert_lote()
+        nf.lotes.append(lote2)'''
+
+    with create_session() as session:
+        session.add(nf)
+
+        session.commit()
+
+        return nf
+    
+    
+# 10 Picole
+def insert_nota_fiscal() -> NotaFiscal:
+    print('Cadastrando Nota Fiscal')
+
+    valor: float = input(
+        'Informe o valor da nota fiscal: ')
+    numero_serie: str = input(
+        'Informe o numero de serie: ')
+    descricao: str = input(
+        'Insira a descricao: ')
+    id_revendedor: int = input(
+        'Insira o ID do revendedor: ')
+
+    nf: NotaFiscal = NotaFiscal(
+        valor=valor, numero_serie=numero_serie, descricao=descricao, id_revendedor=id_revendedor)
+
+    lote = insert_lote()
+    nf.lotes.append(lote)
+
+    while True:
+        opcao: str = input(
+            'Cadastrar novo lote a nota fiscal, digite "1" OU digite "0" para continuar: ')
+        if opcao == '1':
+            lote = insert_lote()
+            nf.lotes.append(lote)
+        elif opcao == '0':
+            print('Finalizando nota fiscal!')
+            break
+        else:
+            print('Opcao invalida!')
+
+    with create_session() as session:
+        session.add(nf)
+
+        session.commit()
+
+        return nf
+
 
 
 def imprimir_menu():
@@ -202,6 +286,7 @@ def imprimir_menu():
     print('6 - Conservante ')
     print('7 - Revendedor ')
     print('8 - Lote ')
+    print('9 - Nota Fiscal ')
     print(50*'-')
     print('0 - Sair ')
     print(50*'-')
@@ -239,9 +324,27 @@ if __name__ == '__main__':
             print(f'CNPJ: {rev.cnpj}')
             print(f'Razao social: {rev.razao_social}')
             print(f'contato: {rev.contato}')
+            sleep(2)
 
         elif opcao == '8':
-            insert_lote()
+            lt = insert_lote()
+            print('Lote cadastrado com sucesso.')
+            print(f'ID: {lt.id}')
+            print(f'Data: {lt.data_criacao}')
+            print(f'Tipo de picole: {lt.id_tipo_picole}')
+            print(f'Quantidade: {lt.quantidade}')
+            sleep(2)
+
+        elif opcao == '9':
+            n_fiz = insert_nota_fiscal()
+            print('Nota Fiscal cadastrado com sucesso.')
+            print(f'ID: {n_fiz.id}')
+            print(f'Data: {n_fiz.data_criacao}')
+            print(f'Valor: {n_fiz.valor}')
+            print(f'Numero de serie: {n_fiz.numero_serie}')
+            print(f'Descricao: {n_fiz.descricao}')
+            print(f'ID Revendedor: {n_fiz.id_revendedor}')
+            sleep(2)
 
         elif opcao == '0':
             print('Fechando o programa!')
