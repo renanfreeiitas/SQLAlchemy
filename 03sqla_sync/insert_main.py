@@ -18,7 +18,7 @@ from models.picole import Picole
 
 
 # 1 Aditivos Nutritivos
-def insert_aditivo_nutritivo() -> None:
+def insert_aditivo_nutritivo() -> AditivoNutritivo:
     print('Cadastrando Aditivo Nutritivo')
 
     nome: str = input('Informe o nome do aditivo nutritivo: ').title()
@@ -33,17 +33,11 @@ def insert_aditivo_nutritivo() -> None:
 
         session.commit()
 
-    print('Aditivo cadastrado com sucesso.')
-    print(f'ID: {an.id}')
-    print(f'Data: {an.data_criacao}')
-    print(f'Nome: {an.nome}')
-    print(f'Formula quimica: {an.formula_quimica}')
-
-    sleep(2)
+    return AditivoNutritivo
 
 
 # 2 Sabor
-def insert_sabor() -> None:
+def insert_sabor() -> Sabor:
     print('Cadastrando sabor')
 
     nome: str = input('Informe o sabor a ser cadastrado: ').title()
@@ -55,15 +49,11 @@ def insert_sabor() -> None:
 
         session.commit()
 
-    print('Sabor cadastrado com sucesso.')
-    print(f'ID: {sabor.id}')
-    print(f'Data: {sabor.data_criacao}')
-    print(f'Nome: {sabor.nome}')
-    sleep(2)
+    return Sabor
 
 
 # 3 Tipo de Embalagem
-def insert_tipo_embalagem() -> None:
+def insert_tipo_embalagem() -> TipoEmbalagem:
     print('Cadastrando tipo de embalagem')
 
     nome: str = input('Informe o tipo de embalagem a ser cadastrado: ').title()
@@ -75,15 +65,11 @@ def insert_tipo_embalagem() -> None:
 
         session.commit()
 
-    print('Tipo de embalagem cadastrado com sucesso.')
-    print(f'ID: {tipo_emb.id}')
-    print(f'Data: {tipo_emb.data_criacao}')
-    print(f'Nome: {tipo_emb.nome}')
-    sleep(2)
+    return TipoEmbalagem
 
 
 # 4 Tipo de Picole
-def insert_tipo_picole() -> None:
+def insert_tipo_picole() -> TipoPicole:
     print('Cadastrando tipo de picole')
 
     nome: str = input('Informe o tipo de picole a ser cadastrado: ').title()
@@ -95,15 +81,11 @@ def insert_tipo_picole() -> None:
 
         session.commit()
 
-    print('Tipo de picole cadastrado com sucesso.')
-    print(f'ID: {tipo_pic.id}')
-    print(f'Data: {tipo_pic.data_criacao}')
-    print(f'Nome: {tipo_pic.nome}')
-    sleep(2)
+    return TipoPicole
 
 
 # 5 Ingredientes
-def insert_ingrediente() -> None:
+def insert_ingrediente() -> Ingrediente:
     print('Cadastrando ingrediente')
 
     nome: str = input('Informe o ingrediente a ser cadastrado: ').title()
@@ -115,15 +97,11 @@ def insert_ingrediente() -> None:
 
         session.commit()
 
-    print('Ingrediente cadastrado com sucesso.')
-    print(f'ID: {ingrediente.id}')
-    print(f'Data: {ingrediente.data_criacao}')
-    print(f'Nome: {ingrediente.nome}')
-    sleep(2)
+    return Ingrediente
 
 
 # 6 conservantes
-def insert_conservante() -> None:
+def insert_conservante() -> Conservante:
     print('Cadastrando conservante')
 
     nome: str = input('Informe o conservante a ser cadastrado: ').title()
@@ -137,12 +115,7 @@ def insert_conservante() -> None:
 
         session.commit()
 
-    print('Conservante cadastrado com sucesso.')
-    print(f'ID: {conservante.id}')
-    print(f'Data: {conservante.data_criacao}')
-    print(f'Nome: {conservante.nome}')
-    print(f'Descricao: {conservante.descricao}')
-    sleep(2)
+    return Conservante
 
 
 # 7 Revendedores
@@ -185,13 +158,6 @@ def insert_lote() -> Lote:
 
         return lote
 
-    print('Lote cadastrado com sucesso.')
-    print(f'ID: {lote.id}')
-    print(f'Data: {lote.data_criacao}')
-    print(f'Tipo de picole: {lote.id_tipo_picole}')
-    print(f'Quantidade: {lote.quantidade}')
-    sleep(2)
-
 
 # 9 Nota fical
 def insert_nota_fiscal() -> NotaFiscal:
@@ -214,7 +180,7 @@ def insert_nota_fiscal() -> NotaFiscal:
 
     while True:
         opcao: str = input(
-            'Cadastrar novo lote a nota fiscal, digite "1" OU digite "0" para continuar: ')
+            'Para cadastrar novo lote a nota fiscal, digite "1" OU digite "0" para continuar: ')
         if opcao == '1':
             lote = insert_lote()
             nf.lotes.append(lote)
@@ -224,58 +190,81 @@ def insert_nota_fiscal() -> NotaFiscal:
         else:
             print('Opcao invalida!')
 
-        '''lote2 = insert_lote()
-        nf.lotes.append(lote2)'''
-
     with create_session() as session:
         session.add(nf)
 
         session.commit()
 
         return nf
-    
-    
+
+
 # 10 Picole
-def insert_nota_fiscal() -> NotaFiscal:
-    print('Cadastrando Nota Fiscal')
+def insert_picole() -> Picole:
+    print('Cadastrando Picole')
 
-    valor: float = input(
-        'Informe o valor da nota fiscal: ')
-    numero_serie: str = input(
-        'Informe o numero de serie: ')
-    descricao: str = input(
-        'Insira a descricao: ')
-    id_revendedor: int = input(
-        'Insira o ID do revendedor: ')
+    preco: float = input(
+        'Informe o preco do picole: ')
+    id_sabor: int = input(
+        'Informe o ID do sabor do picole: ')
+    id_tipo_embalagem: int = input(
+        'Informe o ID do tipo de embalagem: ')
+    id_tipo_picole: int = input(
+        'Informe o ID do tipo de embalagem: ')
 
-    nf: NotaFiscal = NotaFiscal(
-        valor=valor, numero_serie=numero_serie, descricao=descricao, id_revendedor=id_revendedor)
+    picole: Picole = Picole(
+        preco=preco, id_sabor=id_sabor, id_tipo_embalagem=id_tipo_embalagem, id_tipo_picole=id_tipo_picole)
 
-    lote = insert_lote()
-    nf.lotes.append(lote)
+    ingrediente = insert_ingrediente()
+    picole.ingredientes.append(ingrediente)
 
     while True:
         opcao: str = input(
-            'Cadastrar novo lote a nota fiscal, digite "1" OU digite "0" para continuar: ')
+            'Para cadastrar novo ingrediente, digite "1" OU digite "0" para continuar: ')
         if opcao == '1':
-            lote = insert_lote()
-            nf.lotes.append(lote)
+            ingrediente = insert_ingrediente()
+            picole.ingredientes.append(ingrediente)
         elif opcao == '0':
-            print('Finalizando nota fiscal!')
+            print('Proxima etapa')
+            break
+        else:
+            print('Opcao invalida!')
+
+    while True:
+        opcao: str = input(
+            'Para cadastrar um aditivo nutritivo, digite "1" OU digite "0" para continuar: ')
+        if opcao == '1':
+            an = insert_aditivo_nutritivo()
+            picole.aditivos_nutritivos.append(an)
+        elif opcao == '0':
+            print('Proxima etapa')
+            break
+        else:
+            print('Opcao invalida!')
+
+    while True:
+        opcao: str = input(
+            'Para cadastrar um conservante, digite "1" OU digite "0" para continuar: ')
+        if opcao == '1':
+            conservante = insert_conservante()
+            picole.conservantes.append(conservante)
+        elif opcao == '0':
+            print('Finalizando cadastro de picole')
             break
         else:
             print('Opcao invalida!')
 
     with create_session() as session:
-        session.add(nf)
+        session.add(picole)
 
         session.commit()
 
-        return nf
-
+        return picole
 
 
 def imprimir_menu():
+    print(50*'-')
+    print(50*'-')
+    print('Escolha uma das opcoes abaixo: ')
     print(50*'-')
     print(50*'-')
     print('1 - Aditivo Nutritivo')
@@ -287,6 +276,7 @@ def imprimir_menu():
     print('7 - Revendedor ')
     print('8 - Lote ')
     print('9 - Nota Fiscal ')
+    print('10 - Picole ')
     print(50*'-')
     print('0 - Sair ')
     print(50*'-')
@@ -300,22 +290,54 @@ if __name__ == '__main__':
         opcao: str = input(
             'Informe o que deseja cadastrar ou  digite "0" para sair: ')
         if opcao == '1':
-            insert_aditivo_nutritivo()
+            an = insert_aditivo_nutritivo()
+            print('Aditivo cadastrado com sucesso.')
+            print(f'ID: {an.id}')
+            print(f'Data: {an.data_criacao}')
+            print(f'Nome: {an.nome}')
+            print(f'Formula quimica: {an.formula_quimica}')
+            sleep(2)
 
         elif opcao == '2':
-            insert_sabor()
+            sabor = insert_sabor()
+            print('Sabor cadastrado com sucesso.')
+            print(f'ID: {sabor.id}')
+            print(f'Data: {sabor.data_criacao}')
+            print(f'Nome: {sabor.nome}')
+            sleep(2)
 
         elif opcao == '3':
-            insert_tipo_embalagem()
+            tipo_emb = insert_tipo_embalagem()
+            print('Tipo de embalagem cadastrado com sucesso.')
+            print(f'ID: {tipo_emb.id}')
+            print(f'Data: {tipo_emb.data_criacao}')
+            print(f'Nome: {tipo_emb.nome}')
+            sleep(2)
 
         elif opcao == '4':
-            insert_tipo_picole()
+            tp = insert_tipo_picole
+            print('Tipo de picole cadastrado com sucesso.')
+            print(f'ID: {tp.id}')
+            print(f'Data: {tp.data_criacao}')
+            print(f'Nome: {tp.nome}')
+            sleep(2)
 
         elif opcao == '5':
-            insert_ingrediente()
+            ingrediente = insert_ingrediente()
+            print('Ingrediente cadastrado com sucesso.')
+            print(f'ID: {ingrediente.id}')
+            print(f'Data: {ingrediente.data_criacao}')
+            print(f'Nome: {ingrediente.nome}')
+            sleep(2)
 
         elif opcao == '6':
-            insert_conservante()
+            conservante = insert_conservante()
+            print('Conservante cadastrado com sucesso.')
+            print(f'ID: {conservante.id}')
+            print(f'Data: {conservante.data_criacao}')
+            print(f'Nome: {conservante.nome}')
+            print(f'Descricao: {conservante.descricao}')
+            sleep(2)
 
         elif opcao == '7':
             rev = insert_revendedor()
@@ -344,6 +366,17 @@ if __name__ == '__main__':
             print(f'Numero de serie: {n_fiz.numero_serie}')
             print(f'Descricao: {n_fiz.descricao}')
             print(f'ID Revendedor: {n_fiz.id_revendedor}')
+            sleep(2)
+
+        elif opcao == '10':
+            pic = insert_picole()
+            print('Picole cadastrado com sucesso.')
+            print(f'ID: {pic.id}')
+            print(f'Data: {pic.data_criacao}')
+            print(f'Preco: {pic.preco}')
+            print(f'Sabor: {pic.sabor.nome}')
+            print(f'Tipo de embalagem: {pic.tipo_embalagem.nome}')
+            print(f'Tipo de picole: {pic.tipo_picole.nome}')
             sleep(2)
 
         elif opcao == '0':
